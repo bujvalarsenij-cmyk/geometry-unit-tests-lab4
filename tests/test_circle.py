@@ -9,9 +9,9 @@ sys.path.insert(0, parent_dir)
 
 try:
     from src import circle
-    print("✓ Импорт circle успешен")
+    print("OK: Импорт circle успешен")
 except ImportError as e:
-    print(f"✗ Ошибка импорта circle: {e}")
+    print(f"ERROR: Ошибка импорта circle: {e}")
     # Альтернативный способ импорта
     sys.path.insert(0, os.path.join(parent_dir, 'src'))
     import circle
