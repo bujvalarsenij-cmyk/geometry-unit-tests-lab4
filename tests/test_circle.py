@@ -2,17 +2,13 @@
 import sys
 import os
 
-# Получаем абсолютный путь к корню проекта
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, parent_dir)
 
 try:
     from src import circle
-    print("OK: Импорт circle успешен")
-except ImportError as e:
-    print(f"ERROR: Ошибка импорта circle: {e}")
-    # Альтернативный способ импорта
+except ImportError:
     sys.path.insert(0, os.path.join(parent_dir, 'src'))
     import circle
 
