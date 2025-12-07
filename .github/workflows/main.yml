@@ -23,3 +23,4 @@ jobs:
       run: |
         echo "=== Запуск unit-тестов на ${{ runner.os }} ==="
         python -m unittest discover tests/ -v
+# проверка
