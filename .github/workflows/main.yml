@@ -1,0 +1,68 @@
+﻿name: Run Unit Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Display Python version
+      run: python --version
+    
+    - name: Show directory structure
+      run: |
+        echo "Current directory: $PWD"
+        ls -la
+        echo "Tests directory:"
+        ls -la tests/
+        echo "Src directory:"
+        ls -la src/
+    
+    - name: Run unit tests
+      run: |
+        echo "=== Запуск тестов ==="
+        python -m unittest discover tests/ -v
+        if [ $? -eq 0 ]; then
+          echo "✅ Все тесты прошли успешно!"
+        else
+          echo "❌ Некоторые тесты не прошли"
+          exit 1
+        fi
+    
+    - name: Verify imports
+      run: |
+        echo "=== Проверка импортов ==="
+        python -c "
+import sys
+sys.path.append('src')
+try:
+    import circle
+    print('✅ circle импортирован')
+    print(f'  area(5) = {circle.area(5):.2f}')
+except Exception as e:
+    print(f'❌ circle: {e}')
+    
+try:
+    import rectangle
+    print('✅ rectangle импортирован')
+    print(f'  area(4,6) = {rectangle.area(4,6)}')
+except Exception as e:
+    print(f'❌ rectangle: {e}')
+        "
