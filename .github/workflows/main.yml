@@ -21,7 +21,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9'
+        python-version: "3.9"
     
     - name: Display Python version
       run: python --version
@@ -49,20 +49,36 @@ jobs:
     - name: Verify imports
       run: |
         echo "=== Проверка импортов ==="
+        python -c "import sys; sys.path.append('src')"
         python -c "
-import sys
-sys.path.append('src')
 try:
     import circle
     print('✅ circle импортирован')
     print(f'  area(5) = {circle.area(5):.2f}')
 except Exception as e:
     print(f'❌ circle: {e}')
-    
+        "
+        python -c "
 try:
     import rectangle
     print('✅ rectangle импортирован')
     print(f'  area(4,6) = {rectangle.area(4,6)}')
 except Exception as e:
     print(f'❌ rectangle: {e}')
+        "
+        python -c "
+try:
+    import square
+    print('✅ square импортирован')
+    print(f'  area(5) = {square.area(5)}')
+except Exception as e:
+    print(f'❌ square: {e}')
+        "
+        python -c "
+try:
+    import triangle
+    print('✅ triangle импортирован')
+    print(f'  area(6,4) = {triangle.area(6,4)}')
+except Exception as e:
+    print(f'❌ triangle: {e}')
         "
